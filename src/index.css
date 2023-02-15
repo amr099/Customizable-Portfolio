@@ -1,0 +1,68 @@
+ul {
+    list-style: none;
+}
+
+img {
+    width: 100%;
+}
+
+.grid {
+    display: grid;
+    justify-content: center;
+    align-items: center;
+    row-gap: 20px;
+}
+.cols {
+    grid-template-columns: repeat(12, 1fr);
+}
+.rows {
+    grid-template-rows: repeat(12, 1fr);
+}
+
+.flex {
+    display: flex;
+}
+.around {
+    justify-content: space-around;
+}
+
+/* ....................................Hero Section................................. */
+.hero {
+    height: 100vh;
+}
+header {
+    grid-row: 1/4;
+}
+main {
+    grid-row: 5/10;
+}
+.links {
+    grid-row: 11/13;
+    width: 30%;
+    min-width: fit-content;
+    margin: auto;
+}
+.logo {
+    max-width: 100px;
+    grid-column: 2/4;
+}
+.nav {
+    grid-column: 8/13;
+}
+
+@media (max-width: 768px) {
+    .logo {
+        margin: auto;
+    }
+    .logo,
+    .nav {
+        grid-column: 1/13;
+    }
+}
+
+.main-paragraph {
+    grid-column: 2/7;
+}
+.main-figure {
+    grid-column: 8/12;
+}
