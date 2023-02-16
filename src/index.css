@@ -1,3 +1,32 @@
+* {
+    box-sizing: border-box;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+        sans-serif;
+}
+
+.container {
+    width: 90%;
+    margin: auto;
+}
+
+h1 {
+    font-size: 3.5rem;
+}
+
+h2 {
+    font-size: 2.5rem;
+}
+
+h3 {
+    font-size: 1.5rem;
+}
+
+h1,
+h2,
+h3 {
+    margin-bottom: 2rem;
+}
+
 ul {
     list-style: none;
 }
@@ -8,9 +37,7 @@ img {
 
 .grid {
     display: grid;
-    justify-content: center;
-    align-items: center;
-    row-gap: 20px;
+    gap: 10px;
 }
 .cols {
     grid-template-columns: repeat(12, 1fr);
@@ -21,14 +48,25 @@ img {
 
 .flex {
     display: flex;
+    gap: 10px;
 }
 .around {
     justify-content: space-around;
 }
+.wrap {
+    flex-wrap: wrap;
+}
 
-/* ....................................Hero Section................................. */
+/* ................................................................. */
+.about,
+.services,
+.projects {
+    padding: 6rem 0;
+}
+
 .hero {
-    height: 100vh;
+    min-height: max-content;
+    padding-top: 2rem;
 }
 header {
     grid-row: 1/4;
@@ -38,16 +76,19 @@ main {
 }
 .links {
     grid-row: 11/13;
-    width: 30%;
-    min-width: fit-content;
     margin: auto;
 }
 .logo {
-    max-width: 100px;
+    max-width: 7rem;
     grid-column: 2/4;
 }
 .nav {
     grid-column: 8/13;
+}
+
+.nav > span,
+.links > span {
+    font-weight: bold;
 }
 
 @media (max-width: 768px) {
@@ -65,4 +106,31 @@ main {
 }
 .main-figure {
     grid-column: 8/12;
+}
+
+@media (max-width: 768px) {
+    .main-figure,
+    .main-paragraph {
+        grid-column: 2/12;
+    }
+}
+
+.service,
+.project {
+    width: 30%;
+    border: 2px solid #eee;
+    padding: 3rem 1.5rem;
+    margin: 1rem;
+}
+
+@media (max-width: 768px) {
+    .service,
+    .project {
+        width: 100%;
+    }
+}
+
+footer {
+    text-align: center;
+    padding: 2rem 0;
 }

@@ -1,0 +1,28 @@
+Customizable Portfolio using React - Firebase
+
+Features:- 
+      User can modify content and sections.
+      Select from different Layouts and Colors.
+      Select language of the Website.
+
+Firebase:
+    Info Collection:
+        language : ar / eng
+        layouts : 1/2/3
+        color palletes : 1/2/3
+        info document : Logo(photo) / Name
+        main heading : 
+        main text : 
+        about text :
+        links(array) : 
+        sections(array) : (services / projects / about)    
+    Services Collection :
+        services documents:
+            title:
+            content:
+            picture:
+    Projects Collection : 
+        projects documents:
+            title:
+            content:
+            picture:
