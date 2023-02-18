@@ -7,22 +7,39 @@ Features:-
 
 Firebase:
     Info Collection:
-        language : ar / eng
-        layouts : 1/2/3
-        color palletes : 1/2/3
-        info document : Logo(photo) / Name
-        main heading : 
-        main text : 
-        about text :
-        links(array) : 
-        sections(array) : (services / projects / about)    
+        lang: ar / eng
+        layout: 1/2/3
+        theme: 1/2/3
+        logo : img(url)
+        name: ''
+        mainImg : img(url)
+        mainHeading: ''
+        mainText: ''
+        aboutText : ''
+        projects: true / false
+        services: true / false 
+           
     Services Collection :
         services documents:
-            title:
-            content:
-            picture:
+            title: ''
+            text: '' 
+            picture: img()
     Projects Collection : 
         projects documents:
-            title:
-            content:
-            picture:
+            title: '' 
+            text: ''
+            picture: img()
+
+Dashboard:
+    using React-Router
+        Each route has a part of website content that user can view and edit 
+        1- Logo - mainHead - mainText - mainPic - about (form)
+        2- Links (list)
+        3- Projects (CRUD table)
+        4- Services (CRUD table)
+
+TODO : 
+    3- Design Themes.
+    2- Design 2 more layouts.
+    1- Handle Change layouts.
+    4- Dashboard.

@@ -1,16 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import { FirebaseContext } from "context/firebase-context";
 
 export default function Main() {
+    const { mainHeading } = useContext(FirebaseContext);
+    const { mainText } = useContext(FirebaseContext);
+
     return (
         <main className='grid cols'>
             <div className='main-paragraph'>
-                <h1>Lorem ... </h1>
-                <p>
-                    Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-                    Modi beatae perspiciatis quis reiciendis? Cum nisi et enim
-                    quisquam ipsa corporis numquam quam deserunt adipisci? Earum
-                    voluptatibus quia aliquam alias ducimus?
-                </p>
+                <h1>{mainHeading}</h1>
+                <p>{mainText}</p>
             </div>
             <img
                 className='main-figure'
