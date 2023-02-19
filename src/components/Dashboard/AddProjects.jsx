@@ -1,7 +1,7 @@
 import React from "react";
 import { db, storage } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-import { setDoc, updateDoc } from "firebase/firestore";
+import { setDoc, updateDoc, doc } from "firebase/firestore";
 
 export default function AddProjects() {
     const newProject = async (e) => {
@@ -12,36 +12,67 @@ export default function AddProjects() {
 
         if (projectTitle && projectText && projectImg) {
             try {
-                const projectsCol = await collection(db, "Projects");
-                await setDoc(projectsCol, projectTitle, [
-                    { title: proTitle },
-                    { text: proText },
-                ]);
-                const storageRef = ref(storage, "images/" + projectImg);
-                const uploadTask = uploadBytesResumable(storageRef, projectImg);
-                uploadTask.on(
-                    "state_changed",
-                    (error) => {
-                        switch (error.code) {
-                            case "storage/unauthorized":
-                                break;
-                            case "storage/canceled":
-                                break;
-                            case "storage/unknown":
-                                break;
-                        }
-                    },
-                    () => {
-                        getDownloadURL(uploadTask.snapshot.ref).then(
-                            (downloadURL) => {
-                                console.log("File available at", downloadURL);
-                                updateDoc(doc(db, "Projects", projectTitle), {
-                                    img: downloadURL,
-                                });
+                const projectDoc = await doc(db, "Projects", projectTitle);
+                await setDoc(doc(db, "Projects", projectTitle), {
+                    title: projectTitle,
+                    text: projectText,
+                });
+                if (projectImg) {
+                    /** @type {any} */
+                    const metadata = {
+                        contentType: "image/jpeg",
+                    };
+
+                    const storageRef = ref(storage, "images/" + projectImg);
+                    const uploadTask = uploadBytesResumable(
+                        storageRef,
+                        projectImg,
+                        metadata
+                    );
+
+                    uploadTask.on(
+                        "state_changed",
+                        (snapshot) => {
+                            const progress =
+                                (snapshot.bytesTransferred /
+                                    snapshot.totalBytes) *
+                                100;
+                            console.log("Upload is " + progress + "% done");
+                            switch (snapshot.state) {
+                                case "paused":
+                                    console.log("Upload is paused");
+                                    break;
+                                case "running":
+                                    console.log("Upload is running");
+                                    break;
                             }
-                        );
-                    }
-                );
+                        },
+                        (error) => {
+                            switch (error.code) {
+                                case "storage/unauthorized":
+                                    break;
+                                case "storage/canceled":
+                                    break;
+
+                                case "storage/unknown":
+                                    break;
+                            }
+                        },
+                        () => {
+                            getDownloadURL(uploadTask.snapshot.ref).then(
+                                (downloadURL) => {
+                                    console.log(
+                                        "File available at",
+                                        downloadURL
+                                    );
+                                    updateDoc(projectDoc, {
+                                        picture: downloadURL,
+                                    });
+                                }
+                            );
+                        }
+                    );
+                }
             } catch (e) {
                 console.log(e);
             }

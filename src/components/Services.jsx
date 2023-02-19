@@ -14,6 +14,7 @@ export default function Services() {
                             key={index}
                             title={service.title}
                             text={service.text}
+                            picture={service.picture}
                         />
                     ))}
                 </div>

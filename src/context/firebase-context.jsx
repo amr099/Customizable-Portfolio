@@ -9,10 +9,12 @@ export const FirebaseContext = createContext();
 export const FirebaseContextProvider = ({ children }) => {
     const projectsCol = collection(db, "Projects");
     const servicesCol = collection(db, "Services");
+    const linksCol = collection(db, "Links");
     const [projects, ploading, perror, psnapshot] =
         useCollectionData(projectsCol);
     const [services, sloading, serror, ssnapshot] =
         useCollectionData(servicesCol);
+    const [links, lloading, lerror, lsnapshot] = useCollectionData(linksCol);
 
     const [dir, setDir] = useState();
     const [name, setName] = useState();
@@ -21,6 +23,7 @@ export const FirebaseContextProvider = ({ children }) => {
     const [aboutText, setAboutText] = useState();
     const [projectsSection, setProjectsSection] = useState();
     const [servicesSection, setServicesSection] = useState();
+    const [mainImg, setMainImg] = useState();
 
     useEffect(() => {
         const getContent = async () => {
@@ -32,6 +35,7 @@ export const FirebaseContextProvider = ({ children }) => {
                 setProjectsSection(doc?.data()?.projects);
                 setServicesSection(doc?.data()?.services);
                 setDir(doc?.data()?.dir);
+                setMainImg(doc?.data()?.mainImg);
             });
         };
         getContent();
@@ -48,6 +52,8 @@ export const FirebaseContextProvider = ({ children }) => {
                 projectsSection,
                 servicesSection,
                 dir,
+                mainImg,
+                links,
             }}
         >
             {children}

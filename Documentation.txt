@@ -39,7 +39,11 @@ Dashboard:
         4- Services (CRUD table)
 
 TODO : 
-    3- Design Themes.
-    2- Design 2 more layouts.
-    1- Handle Change layouts.
-    4- Dashboard.
+    1- Links collection.
+    3- Form optimization.
+    2- handle imgs size ratios.
+    4- Themes and Layouts.
+    5- Style name and LOGO.
+    6- Authenticate dashboard route.
+    7- view link, projects,services at dashboard (handleEdit and Delete).
+    

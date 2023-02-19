@@ -12,9 +12,7 @@ import { FirebaseContext } from "context/firebase-context";
 export default function App() {
     const { projectsSection, servicesSection, dir } =
         useContext(FirebaseContext);
-    document
-        .getElementsByTagName("html")[0]
-        .setAttribute("dir", dir === "Arabic" ? "rlt" : "ltr");
+    document.getElementsByTagName("html")[0].setAttribute("dir", dir);
 
     return (
         <>

@@ -14,6 +14,7 @@ export default function Projects() {
                             key={index}
                             title={project.title}
                             text={project.text}
+                            picture={project.picture}
                         />
                     ))}
                 </div>
