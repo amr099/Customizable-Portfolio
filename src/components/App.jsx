@@ -8,7 +8,6 @@ import Footer from "./Footer";
 import "reset.css";
 import "index.css";
 import { FirebaseContext } from "context/firebase-context";
-import Dashboard from "./Dashboard";
 
 export default function App() {
     const { projectsSection, servicesSection, dir } =
@@ -19,13 +18,12 @@ export default function App() {
 
     return (
         <>
-            <Dashboard />
-            {/* <Hero />
+            <Hero />
             <About />
             {servicesSection && <Services />}
             {projectsSection && <Projects />}
             <Contacts />
-            <Footer /> */}
+            <Footer />
         </>
     );
 }
