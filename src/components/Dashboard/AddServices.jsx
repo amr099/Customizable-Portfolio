@@ -2,6 +2,7 @@ import React from "react";
 import { db, storage } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { setDoc, updateDoc, doc } from "firebase/firestore";
+import CustomForm from "./../CustomForm";
 
 export default function AddServices() {
     const onSubmit = async (e) => {
@@ -23,7 +24,10 @@ export default function AddServices() {
                         contentType: "image/jpeg",
                     };
 
-                    const storageRef = ref(storage, "images/" + serviceImg);
+                    const storageRef = ref(
+                        storage,
+                        "images/" + serviceImg.name
+                    );
                     const uploadTask = uploadBytesResumable(
                         storageRef,
                         serviceImg,
@@ -78,24 +82,5 @@ export default function AddServices() {
             }
         }
     };
-    return (
-        <form onSubmit={(e) => onSubmit(e)}>
-            <fieldset>
-                <legend>New Service</legend>
-                <div>
-                    <label>title</label>
-                    <input />
-                </div>
-                <div>
-                    <label>text</label>
-                    <textarea></textarea>
-                </div>
-                <div>
-                    <label>img</label>
-                    <input type='file' />
-                </div>
-                <button>Submit</button>
-            </fieldset>
-        </form>
-    );
+    return <CustomForm onSubmit={onSubmit} legend='New Service' />;
 }

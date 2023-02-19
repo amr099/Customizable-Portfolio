@@ -2,15 +2,16 @@ import React, { useContext } from "react";
 import { FirebaseContext } from "context/firebase-context";
 
 export default function Main() {
-    const { mainHeading, mainText, mainImg } = useContext(FirebaseContext);
+    const { data } = useContext(FirebaseContext);
+    console.log(data.mainHeading);
 
     return (
         <main className='grid cols'>
             <div className='main-paragraph'>
-                <h1>{mainHeading}</h1>
-                <p>{mainText}</p>
+                <h1>{data.mainHeading}</h1>
+                <p>{data.mainText}</p>
             </div>
-            <img className='main-figure' src={mainImg} alt='' />
+            <img className='main-figure' src={data.mainImg} alt='' />
         </main>
     );
 }

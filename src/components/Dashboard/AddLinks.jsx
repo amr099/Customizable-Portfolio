@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { setDoc, doc } from "firebase/firestore";
 import { db } from "firebase-config";
+import { FirebaseContext } from "context/firebase-context";
 
 export default function AddLinks() {
+    const { links } = useContext(FirebaseContext);
     const onSubmit = (e) => {
         e.preventDefault();
         const platform = e.target[1].value;
@@ -22,8 +24,8 @@ export default function AddLinks() {
             <fieldset>
                 <legend>New Link</legend>
                 <div>
-                    <label htmlFor=''>Platform</label>
-                    <select name='' id=''>
+                    <label>Platform</label>
+                    <select required>
                         <option value='facebook'>Facebook</option>
                         <option value='github'>Github</option>
                         <option value='linkedin'>LinkedIn</option>
@@ -31,8 +33,8 @@ export default function AddLinks() {
                     </select>
                 </div>
                 <div>
-                    <label htmlFor=''>URL</label>
-                    <input type='url' />
+                    <label>URL</label>
+                    <input type='url' required />
                 </div>
                 <button>Submit</button>
             </fieldset>

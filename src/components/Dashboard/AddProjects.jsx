@@ -1,14 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import { db, storage } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { setDoc, updateDoc, doc } from "firebase/firestore";
+import CustomForm from "./../CustomForm";
 
 export default function AddProjects() {
-    const newProject = async (e) => {
+    const [loading, setLoading] = useState();
+    const [success, setSuccess] = useState();
+    const [error, setError] = useState();
+
+    const onSubmit = async (e) => {
+        setLoading(true);
+        let projectTitle, projectText, projectImg;
         e.preventDefault();
-        const projectTitle = e.target[1].value;
-        const projectText = e.target[2].value;
-        const projectImg = e.target[3].files[0];
+        try {
+            projectTitle = e.target[1].value;
+            projectText = e.target[2].value;
+            projectImg = e.target[3].files[0];
+        } catch (e) {
+            console.log(e);
+            setError("invalid input:", e);
+            setLoading(false);
+            return;
+        }
 
         if (projectTitle && projectText && projectImg) {
             try {
@@ -23,7 +37,10 @@ export default function AddProjects() {
                         contentType: "image/jpeg",
                     };
 
-                    const storageRef = ref(storage, "images/" + projectImg);
+                    const storageRef = ref(
+                        storage,
+                        "images/" + projectImg.name
+                    );
                     const uploadTask = uploadBytesResumable(
                         storageRef,
                         projectImg,
@@ -75,27 +92,12 @@ export default function AddProjects() {
                 }
             } catch (e) {
                 console.log(e);
+                setError("Firebase Error:", e);
+                setLoading(false);
+                return;
             }
         }
+        setSuccess("Saved");
     };
-    return (
-        <form onSubmit={(e) => newProject(e)}>
-            <fieldset>
-                <legend>New Project</legend>
-                <div>
-                    <label>title</label>
-                    <input />
-                </div>
-                <div>
-                    <label>text</label>
-                    <textarea></textarea>
-                </div>
-                <div>
-                    <label>img</label>
-                    <input type='file' />
-                </div>
-                <button>Submit</button>
-            </fieldset>
-        </form>
-    );
+    return <CustomForm onSubmit={onSubmit} legend='New Project' />;
 }

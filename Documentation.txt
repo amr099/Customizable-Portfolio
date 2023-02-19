@@ -37,13 +37,13 @@ Dashboard:
         2- Links (list)
         3- Projects (CRUD table)
         4- Services (CRUD table)
+        
 
 TODO : 
-    1- Links collection.
-    3- Form optimization.
-    2- handle imgs size ratios.
-    4- Themes and Layouts.
-    5- Style name and LOGO.
-    6- Authenticate dashboard route.
-    7- view link, projects,services at dashboard (handleEdit and Delete).
+    - view links, projects,services at dashboard (handleEdit and Delete).
+    - Form optimization.(Search)
+    - Authenticate dashboard route.
+    - handle imgs size ratios.
+    - Themes and Layouts.
+    - Style name and LOGO.
     
