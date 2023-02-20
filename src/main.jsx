@@ -8,6 +8,9 @@ import Content from "components/Dashboard/Content";
 import AddServices from "components/Dashboard/AddServices";
 import AddProjects from "components/Dashboard/AddProjects";
 import AddLinks from "components/Dashboard/AddLinks";
+import SignIn from "./components/SignIn";
+import ProtectedRoute from "./components/ProtectedRoute";
+import AuthContextProvider from "context/auth-context";
 
 const router = createBrowserRouter([
     {
@@ -15,8 +18,16 @@ const router = createBrowserRouter([
         element: <App />,
     },
     {
+        path: "signin",
+        element: <SignIn />,
+    },
+    {
         path: "dashboard",
-        element: <Dashboard />,
+        element: (
+            <ProtectedRoute>
+                <Dashboard />
+            </ProtectedRoute>
+        ),
         children: [
             {
                 path: "content",
@@ -41,7 +52,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <FirebaseContextProvider>
-            <RouterProvider router={router} />
+            <AuthContextProvider>
+                <RouterProvider router={router} />
+            </AuthContextProvider>
         </FirebaseContextProvider>
     </React.StrictMode>
 );
