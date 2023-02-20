@@ -7,6 +7,7 @@ import Dashboard from "components/Dashboard/Dashboard";
 import Content from "components/Dashboard/Content";
 import AddServices from "components/Dashboard/AddServices";
 import AddProjects from "components/Dashboard/AddProjects";
+import AddLinks from "components/Dashboard/AddLinks";
 
 const router = createBrowserRouter([
     {
@@ -14,12 +15,16 @@ const router = createBrowserRouter([
         element: <App />,
     },
     {
-        path: "/dashboard",
+        path: "dashboard",
         element: <Dashboard />,
         children: [
             {
                 path: "content",
                 element: <Content />,
+            },
+            {
+                path: "links",
+                element: <AddLinks />,
             },
             {
                 path: "addprojects",

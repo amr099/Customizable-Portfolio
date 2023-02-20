@@ -3,7 +3,7 @@ import Nav from "./Nav";
 import { FirebaseContext } from "context/firebase-context";
 
 export default function Header() {
-    const { name } = useContext(FirebaseContext);
+    const { data } = useContext(FirebaseContext);
     return (
         <header className='grid cols'>
             {/* <img
@@ -11,7 +11,7 @@ export default function Header() {
                 alt=''
                 className='logo'
             /> */}
-            <h1 className='logo'>{name}</h1>
+            <h1 className='logo'>{data?.name}</h1>
             <Nav />
         </header>
     );

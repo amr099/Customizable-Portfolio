@@ -7,13 +7,14 @@ export default function Projects() {
     return (
         <section className='projects bg'>
             <div className='container'>
-                <h2>My Projects</h2>
+                <h2>My Work</h2>
                 <div className='flex wrap around'>
                     {projects?.map((project, index) => (
                         <Project
                             key={index}
                             title={project.title}
                             text={project.text}
+                            picture={project.picture}
                         />
                     ))}
                 </div>

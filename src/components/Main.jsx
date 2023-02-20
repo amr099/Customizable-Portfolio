@@ -2,20 +2,15 @@ import React, { useContext } from "react";
 import { FirebaseContext } from "context/firebase-context";
 
 export default function Main() {
-    const { mainHeading } = useContext(FirebaseContext);
-    const { mainText } = useContext(FirebaseContext);
+    const { data } = useContext(FirebaseContext);
 
     return (
         <main className='grid cols'>
             <div className='main-paragraph'>
-                <h1>{mainHeading}</h1>
-                <p>{mainText}</p>
+                <h1>{data?.mainHeading}</h1>
+                <p>{data?.mainText}</p>
             </div>
-            <img
-                className='main-figure'
-                src='https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png'
-                alt=''
-            />
+            <img className='main-figure' src={data?.mainImg} alt='' />
         </main>
     );
 }
