@@ -11,7 +11,7 @@ export default function Header() {
                 alt=''
                 className='logo'
             /> */}
-            <h1 className='logo'>{data.name}</h1>
+            <h1 className='logo'>{data?.name}</h1>
             <Nav />
         </header>
     );
