@@ -40,11 +40,9 @@ Dashboard:
         
 
 TODO : 
-    - Authenticate dashboard route.(use firebase auth)
     - Interactive form.
         -custom hooks.
-    - handle imgs size ratios.(Search)
-    - Themes and Layouts.(Web design Tutorial)
-    - Style name and LOGO.
-    - handleEdit of links,projects and services.
+        -react-form.
+    - Themes, Layouts and Responsiveness.
+        -(Web design Tutorial)
     
