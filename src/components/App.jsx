@@ -5,8 +5,10 @@ import Services from "./Services";
 import Projects from "./Projects";
 import Contacts from "./Contacts";
 import Footer from "./Footer";
+import "bootstrap/dist/css/bootstrap.min.css";
 import "reset.css";
 import "index.css";
+
 import { FirebaseContext } from "context/firebase-context";
 
 export default function App() {

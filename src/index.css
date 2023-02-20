@@ -169,6 +169,7 @@ button:hover {
 .m-auto {
     margin: auto;
 }
+
 /* ----------------------------------------------------------- */
 .hero {
     min-height: max-content;
@@ -291,6 +292,12 @@ footer {
     background-color: #f1eaec;
     color: #fc5185;
     cursor: pointer;
+}
+
+.form-container {
+    height: 100vh;
+    margin: auto;
+    padding-top: 20px;
 }
 
 /* ----------------------------------------------------------- */

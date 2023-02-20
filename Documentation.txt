@@ -40,10 +40,11 @@ Dashboard:
         
 
 TODO : 
-    - view links, projects,services at dashboard (handleEdit and Delete).
-    - Form optimization.(Search)
-    - Authenticate dashboard route.
-    - handle imgs size ratios.
-    - Themes and Layouts.
+    - Authenticate dashboard route.(use firebase auth)
+    - Interactive form.
+        -custom hooks.
+    - handle imgs size ratios.(Search)
+    - Themes and Layouts.(Web design Tutorial)
     - Style name and LOGO.
+    - handleEdit of links,projects and services.
     
