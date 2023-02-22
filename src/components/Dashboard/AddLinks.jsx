@@ -1,20 +1,23 @@
 import React, { useContext } from "react";
-import { setDoc, doc } from "firebase/firestore";
+import { setDoc, doc, deleteDoc } from "firebase/firestore";
 import { db } from "firebase-config";
 import { FirebaseContext } from "context/firebase-context";
 import Table from "react-bootstrap/Table";
+import { useForm } from "react-hook-form";
 
 export default function AddLinks() {
-    const { links } = useContext(FirebaseContext);
-    const onSubmit = (e) => {
-        e.preventDefault();
-        const platform = e.target[1].value;
-        const url = e.target[2].value;
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
 
+    const { links } = useContext(FirebaseContext);
+    const onSubmit = async (data) => {
         try {
-            setDoc(doc(db, "Links", platform), {
-                platform: platform,
-                url: url,
+            await setDoc(doc(db, "Links", data.platform), {
+                platform: data.platform,
+                url: data.url,
             });
         } catch (e) {
             console.log(e);
@@ -24,7 +27,6 @@ export default function AddLinks() {
     const onDelete = async (platform) => {
         try {
             await deleteDoc(doc(db, "Links", platform));
-            console.log(platform);
         } catch (e) {
             console.log(e);
         }
@@ -55,12 +57,12 @@ export default function AddLinks() {
                     ))}
                 </tbody>
             </Table>
-            <form onSubmit={(e) => onSubmit(e)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
                     <legend>New Link</legend>
                     <div>
-                        <label>Platform</label>
-                        <select required>
+                        <label>Platform{errors.url && <span>*</span>}</label>
+                        <select {...register("platform", { required: true })}>
                             <option value='facebook'>Facebook</option>
                             <option value='github'>Github</option>
                             <option value='linkedin'>LinkedIn</option>
@@ -68,8 +70,11 @@ export default function AddLinks() {
                         </select>
                     </div>
                     <div>
-                        <label>URL</label>
-                        <input type='url' required />
+                        <label>URL{errors.url && <span>*</span>}</label>
+                        <input
+                            type='url'
+                            {...register("url", { required: true })}
+                        />
                     </div>
                     <button>Submit</button>
                 </fieldset>

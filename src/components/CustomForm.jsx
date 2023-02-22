@@ -3,37 +3,35 @@ import Table from "react-bootstrap/Table";
 import { db, storage } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
 import { setDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
+import { useForm } from "react-hook-form";
 
 export default function CustomForm({ legend, data, col }) {
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        let title, text, img;
-        try {
-            title = e.target[1].value;
-            text = e.target[2].value;
-            img = e.target[3].files[0];
-        } catch (e) {
-            console.log(e);
-            return;
-        }
-
-        if (title) {
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const onSubmit = async (data) => {
+        if (data.title) {
             try {
-                const document = await doc(db, col, title);
-                await setDoc(doc(db, col, title), {
-                    title: title,
-                    text: text,
+                const document = await doc(db, col, data.title);
+                await setDoc(doc(db, col, data.title), {
+                    title: data.title,
+                    text: data.text,
                 });
-                if (img) {
+                if (data.img.length != 0) {
                     /** @type {any} */
                     const metadata = {
                         contentType: "image/jpeg",
                     };
 
-                    const storageRef = ref(storage, "images/" + img.name);
+                    const storageRef = ref(
+                        storage,
+                        "images/" + data.img[0].name
+                    );
                     const uploadTask = uploadBytesResumable(
                         storageRef,
-                        img,
+                        data.img[0],
                         metadata
                     );
 
@@ -130,20 +128,20 @@ export default function CustomForm({ legend, data, col }) {
                     ))}
                 </tbody>
             </Table>
-            <form onSubmit={(e) => onSubmit(e)}>
+            <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
                     <legend>{legend}</legend>
                     <div>
                         <label>title *</label>
-                        <input required />
+                        <input {...register("title", { required: true })} />
                     </div>
                     <div>
                         <label>text</label>
-                        <textarea></textarea>
+                        <textarea {...register("text")}></textarea>
                     </div>
                     <div>
                         <label>img</label>
-                        <input type='file' />
+                        <input type='file' {...register("img")} />
                     </div>
                     <button>Submit</button>
                 </fieldset>
