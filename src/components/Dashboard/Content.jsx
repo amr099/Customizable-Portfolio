@@ -2,44 +2,54 @@ import React, { useContext } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
-
 import { storage } from "firebase-config";
 import { FirebaseContext } from "context/firebase-context";
+import { useForm } from "react-hook-form";
 
 export default function Content() {
     const { data } = useContext(FirebaseContext);
+    const {
+        register,
+        handleSubmit,
+        formState: { errors },
+    } = useForm({
+        defaultValues: {
+            name: data?.name,
+            mainHeading: data?.mainHeading,
+            mainText: data?.mainText,
+            aboutText: data?.aboutText,
+        },
+    });
 
-    const onSubmit = async (e) => {
-        e.preventDefault();
-        const dir = e.target[0].value;
-        const theme = e.target[1].value;
-        const layout = e.target[2].value;
-        const name = e.target[3].value;
-        const mainHeading = e.target[4].value;
-        const mainText = e.target[5].value;
-        const mainImg = e.target[6].files[0];
-        const aboutText = e.target[7].value;
-
+    const onSubmit = async (data) => {
         try {
+            console.log(data.mainImg);
             const contentDoc = doc(db, "Content", "Content");
 
-            if (dir) await updateDoc(contentDoc, { dir: dir });
-            if (theme) await updateDoc(contentDoc, { theme: theme });
-            if (layout) await updateDoc(contentDoc, { layout: layout });
-            if (name) await updateDoc(contentDoc, { name: name });
-            if (mainHeading)
-                await updateDoc(contentDoc, { mainHeading: mainHeading });
-            if (mainText) await updateDoc(contentDoc, { mainText: mainText });
-            if (mainImg) {
+            if (data.dir) await updateDoc(contentDoc, { dir: data.dir });
+            if (data.theme) await updateDoc(contentDoc, { theme: data.theme });
+            if (data.layout)
+                await updateDoc(contentDoc, { layout: data.layout });
+            if (data.name) await updateDoc(contentDoc, { name: data.name });
+            if (data.mainHeading)
+                await updateDoc(contentDoc, { mainHeading: data.mainHeading });
+            if (data.mainText)
+                await updateDoc(contentDoc, { mainText: data.mainText });
+            if (data.aboutText)
+                await updateDoc(contentDoc, { aboutText: data.aboutText });
+            if (data.mainImg.length != 0) {
                 /** @type {any} */
                 const metadata = {
                     contentType: "image/jpeg",
                 };
 
-                const storageRef = ref(storage, "images/" + mainImg.name);
+                const storageRef = ref(
+                    storage,
+                    "images/" + data.mainImg[0].name
+                );
                 const uploadTask = uploadBytesResumable(
                     storageRef,
-                    mainImg,
+                    data.mainImg[0],
                     metadata
                 );
 
@@ -80,24 +90,22 @@ export default function Content() {
                     }
                 );
             }
-            if (aboutText)
-                await updateDoc(contentDoc, { aboutText: aboutText });
         } catch (e) {
             console.log(e);
         }
     };
     return (
-        <form onSubmit={(e) => onSubmit(e)}>
+        <form onSubmit={handleSubmit(onSubmit)}>
             <div>
                 <label>Language</label>
-                <select>
+                <select {...register("dir")}>
                     <option value='ltr'>English</option>
                     <option value='rtl'>Arabic</option>
                 </select>
             </div>
             <div>
                 <label>Theme</label>
-                <select>
+                <select {...register("theme")}>
                     <option value='1'>Theme 1</option>
                     <option value='2'>Theme 2</option>
                     <option value='3'>Theme 3</option>
@@ -105,7 +113,7 @@ export default function Content() {
             </div>
             <div>
                 <label>Layout</label>
-                <select>
+                <select {...register("layout")}>
                     <option value='1'>Layout 1</option>
                     <option value='2'>Layout 2</option>
                     <option value='3'>Layout 3</option>
@@ -113,23 +121,32 @@ export default function Content() {
             </div>
             <div>
                 <label>Name</label>
-                <input placeholder={data?.name} />
+                <input placeholder={data?.name} {...register("name")} />
             </div>
             <div>
                 <label>Main Header</label>
-                <textarea placeholder={data?.mainHeading}></textarea>
+                <textarea
+                    placeholder={data?.mainHeading}
+                    {...register("mainHeading")}
+                ></textarea>
             </div>
             <div>
                 <label>Main Text</label>
-                <textarea placeholder={data?.mainText}></textarea>
+                <textarea
+                    placeholder={data?.mainText}
+                    {...register("mainText")}
+                ></textarea>
             </div>
             <div>
                 <label>Main Picture</label>
-                <input type='file' />
+                <input type='file' {...register("mainImg")} />
             </div>
             <div>
                 <label>About Text</label>
-                <textarea placeholder={data?.aboutText}></textarea>
+                <textarea
+                    placeholder={data?.aboutText}
+                    {...register("aboutText")}
+                ></textarea>
             </div>
             <button>Save</button>
         </form>
