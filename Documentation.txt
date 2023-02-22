@@ -40,9 +40,10 @@ Dashboard:
         
 
 TODO : 
-    - Interactive form.
-        -custom hooks.
-        -react-form.
-    - Themes, Layouts and Responsiveness.
-        -(Web design Tutorial)
+    - Grid responsive design
+    
+    - 3 Layouts for hero section.
+    - 3 color themes.
+    - Forms styling.
+    - Sign in page styling.
     

@@ -8,7 +8,6 @@ import Footer from "./Footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "reset.css";
 import "index.css";
-
 import { FirebaseContext } from "context/firebase-context";
 
 export default function App() {
@@ -18,11 +17,11 @@ export default function App() {
     return (
         <>
             <Hero />
-            <About />
+            {/* <About />
             <Services />
             <Projects />
             <Contacts />
-            <Footer />
+            <Footer /> */}
         </>
     );
 }

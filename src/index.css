@@ -9,12 +9,6 @@
 }
 
 /* ----------------------------------------------------------- */
-
-html,
-body {
-    height: 100%;
-}
-
 :root {
     --light: #f5f5f5;
     --dark: #364f6b;
@@ -191,31 +185,15 @@ button:hover {
     background-color: var(--dark);
 }
 
-header {
-    grid-row: 1/4;
-}
-main {
-    grid-row: 4/10;
-}
-.links {
-    grid-row: 11/13;
-    margin: auto;
-}
-.logo {
-    max-width: 7rem;
-    grid-column: 2/4;
-}
-.nav {
-    grid-column: 8/13;
-}
-
 @media (max-width: 768px) {
     .logo {
         margin: auto;
         text-align: center;
     }
     .logo,
-    .nav {
+    .nav,
+    .main-paragraph,
+    .main-figure {
         grid-column: 1/13;
     }
 }
@@ -227,7 +205,6 @@ main {
 .main-paragraph p,
 .about p {
     font-size: 2rem;
-    padding-left: 2rem;
     line-height: 1.5;
 }
 
