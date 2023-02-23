@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { doc, updateDoc } from "firebase/firestore";
 import { db } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -7,6 +7,11 @@ import { FirebaseContext } from "context/firebase-context";
 import { useForm } from "react-hook-form";
 
 export default function Content() {
+    const [submitState, setSubmitState] = useState({
+        loading: false,
+        success: false,
+        error: "",
+    });
     const { data } = useContext(FirebaseContext);
     const {
         register,
@@ -22,8 +27,8 @@ export default function Content() {
     });
 
     const onSubmit = async (data) => {
+        setSubmitState({ ...submitState, loading: true });
         try {
-            console.log(data.mainImg);
             const contentDoc = doc(db, "Content", "Content");
 
             if (data.dir) await updateDoc(contentDoc, { dir: data.dir });
@@ -53,7 +58,7 @@ export default function Content() {
                     metadata
                 );
 
-                uploadTask.on(
+                await uploadTask.on(
                     "state_changed",
                     (snapshot) => {
                         const progress =
@@ -72,10 +77,19 @@ export default function Content() {
                     (error) => {
                         switch (error.code) {
                             case "storage/unauthorized":
+                                setSubmitState({
+                                    ...submitState,
+                                    loading: false,
+                                    error: e.message,
+                                });
                                 break;
                             case "storage/canceled":
+                                setSubmitState({
+                                    ...submitState,
+                                    loading: false,
+                                    error: e.message,
+                                });
                                 break;
-
                             case "storage/unknown":
                                 break;
                         }
@@ -92,10 +106,16 @@ export default function Content() {
             }
         } catch (e) {
             console.log(e);
+            setSubmitState({
+                ...submitState,
+                loading: false,
+                error: e.message,
+            });
         }
+        setSubmitState({ ...submitState, success: true, loading: false });
     };
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className='form-container'>
             <div>
                 <label>Language</label>
                 <select {...register("dir")}>
@@ -148,7 +168,20 @@ export default function Content() {
                     {...register("aboutText")}
                 ></textarea>
             </div>
-            <button>Save</button>
+            {submitState.error && (
+                <h5 className='alert alert-danger'>Failed!</h5>
+            )}
+            {submitState.success && (
+                <h5 className='alert alert-success'>Saved.</h5>
+            )}
+            {submitState.loading ? (
+                <button class='btn btn-outline-primary' type='button' disabled>
+                    <span class='spinner-border spinner-border-sm'></span>
+                    Loading...
+                </button>
+            ) : (
+                <button className='btn btn-primary'>Submit</button>
+            )}
         </form>
     );
 }

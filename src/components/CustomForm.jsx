@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Table from "react-bootstrap/Table";
 import { db, storage } from "firebase-config";
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
@@ -6,12 +6,18 @@ import { setDoc, updateDoc, doc, deleteDoc } from "firebase/firestore";
 import { useForm } from "react-hook-form";
 
 export default function CustomForm({ legend, data, col }) {
+    const [submitState, setSubmitState] = useState({
+        loading: false,
+        success: false,
+        error: "",
+    });
     const {
         register,
         handleSubmit,
         formState: { errors },
     } = useForm();
     const onSubmit = async (data) => {
+        setSubmitState({ ...submitState, loading: true });
         if (data.title) {
             try {
                 const document = await doc(db, col, data.title);
@@ -55,11 +61,26 @@ export default function CustomForm({ legend, data, col }) {
                         (error) => {
                             switch (error.code) {
                                 case "storage/unauthorized":
+                                    setSubmitState({
+                                        ...submitState,
+                                        loading: false,
+                                        error: e.message,
+                                    });
                                     break;
                                 case "storage/canceled":
+                                    setSubmitState({
+                                        ...submitState,
+                                        loading: false,
+                                        error: e.message,
+                                    });
                                     break;
 
                                 case "storage/unknown":
+                                    setSubmitState({
+                                        ...submitState,
+                                        loading: false,
+                                        error: e.message,
+                                    });
                                     break;
                             }
                         },
@@ -80,15 +101,23 @@ export default function CustomForm({ legend, data, col }) {
                 }
             } catch (e) {
                 console.log(e);
+                setSubmitState({
+                    ...submitState,
+                    loading: false,
+                    error: e.message,
+                });
                 return;
             }
+            setSubmitState({ ...submitState, success: true, loading: false });
         }
     };
 
     const onDelete = async (title) => {
         try {
-            await deleteDoc(doc(db, col, title));
-            console.log(title);
+            const res = window.confirm("Are you sure ?");
+            if (res) {
+                await deleteDoc(doc(db, col, title));
+            }
         } catch (e) {
             console.log(e);
         }
@@ -98,7 +127,6 @@ export default function CustomForm({ legend, data, col }) {
             <Table striped responsive variant='dark' hover>
                 <thead>
                     <tr>
-                        <th></th>
                         <th>Title</th>
                         <th>Text</th>
                         <th>Image</th>
@@ -108,7 +136,6 @@ export default function CustomForm({ legend, data, col }) {
                 <tbody>
                     {data?.map((x, index) => (
                         <tr key={index}>
-                            <td>{index + 1}</td>
                             <td>{x.title}</td>
                             <td>{x.text}</td>
                             <td>
@@ -120,9 +147,10 @@ export default function CustomForm({ legend, data, col }) {
                                 />
                             </td>
                             <td>
-                                <button onClick={() => onDelete(x.title)}>
-                                    Delete
-                                </button>
+                                <i
+                                    class='bi bi-trash-fill'
+                                    onClick={() => onDelete(x.title)}
+                                ></i>
                             </td>
                         </tr>
                     ))}
@@ -130,7 +158,9 @@ export default function CustomForm({ legend, data, col }) {
             </Table>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <fieldset>
-                    <legend>{legend}</legend>
+                    <legend>
+                        <h3>{legend}</h3>
+                    </legend>
                     <div>
                         <label>title *</label>
                         <input {...register("title", { required: true })} />
@@ -143,7 +173,24 @@ export default function CustomForm({ legend, data, col }) {
                         <label>img</label>
                         <input type='file' {...register("img")} />
                     </div>
-                    <button>Submit</button>
+                    {submitState.error && (
+                        <h5 className='alert alert-danger'>Failed!</h5>
+                    )}
+                    {submitState.success && (
+                        <h5 className='alert alert-success'>Saved.</h5>
+                    )}
+                    {submitState.loading ? (
+                        <button
+                            class='btn btn-outline-primary'
+                            type='button'
+                            disabled
+                        >
+                            <span class='spinner-border spinner-border-sm'></span>
+                            Loading...
+                        </button>
+                    ) : (
+                        <button className='btn btn-primary'>Submit</button>
+                    )}
                 </fieldset>
             </form>
         </div>
