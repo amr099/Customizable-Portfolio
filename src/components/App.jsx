@@ -17,11 +17,11 @@ export default function App() {
     return (
         <>
             <Hero />
-            {/* <About />
+            <About />
             <Services />
             <Projects />
             <Contacts />
-            <Footer /> */}
+            <Footer />
         </>
     );
 }

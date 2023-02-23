@@ -3,9 +3,8 @@ import { Link, Outlet } from "react-router-dom";
 
 export default function Dashboard() {
     return (
-        <div className='flex between'>
-            <div className='flex flex-col dashboard'>
-                <h2>Dashboard</h2>
+        <div className='grid cols'>
+            <div className='flex flex-col around dashboard'>
                 <Link to='content'>Content</Link>
                 <Link to='links'>Links</Link>
                 <Link to='addservices'>Services</Link>

@@ -40,10 +40,11 @@ Dashboard:
         
 
 TODO : 
-    - Grid responsive design
-    
-    - 3 Layouts for hero section.
-    - 3 color themes.
-    - Forms styling.
-    - Sign in page styling.
+
+    - Solve image issue.
+    - Design :
+        - Projects Section layout.
+        - Contact form.
+        - select background.
+        - 3 color themes.
     

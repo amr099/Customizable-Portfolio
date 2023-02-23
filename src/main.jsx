@@ -11,7 +11,7 @@ import AddLinks from "components/Dashboard/AddLinks";
 import SignIn from "./components/SignIn";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AuthContextProvider from "context/auth-context";
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 const router = createBrowserRouter([
     {
         path: "/",
